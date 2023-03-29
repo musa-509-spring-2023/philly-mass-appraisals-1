@@ -1,0 +1,12 @@
+# Editor and IDE files
+.DS_Store
+.vscode/
+
+# Environments and dependencies
+.env
+*.pyc
+env/
+node_modules/
+
+# Data
+data/

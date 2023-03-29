@@ -1,0 +1,23 @@
+{
+  "extends": ["eslint:recommended"],
+  "env": {
+      "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "globals": {
+    "console": "readonly",
+  },
+  "rules": {
+    "camelcase": ["error"],
+    "comma-dangle": ["error", "always-multiline"],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "no-trailing-spaces": ["error"],
+    "no-use-before-define": ["error", { "allowNamedExports": true }],
+    "no-var": ["error"],
+    "object-curly-spacing": ["error", "always"],
+    "semi": ["error", "always", { "omitLastInOneLineBlock": true }]
+  }
+}
