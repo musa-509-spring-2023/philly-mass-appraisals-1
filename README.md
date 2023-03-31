@@ -24,7 +24,7 @@ In the `musa509s23_team<N>_raw_data` bucket, there are three folders. Each folde
 
 ### Prepared Data
 
-In the `musa509s23_team<N>_prepared_data` bucket, there are three folders. Each should contain a single file named `data.csv`. The folders are as follows:
+In the `musa509s23_team<N>_prepared_data` bucket, there are three folders. Each should contain a single file named `data.jsonl`. The folders are as follows:
 
 | Folder | Contents |
 |--------|----------|
@@ -53,7 +53,7 @@ The `musa509s23_team<N>_public` bucket contains files that are formatted to be u
 
 ### Tables
 
-The tables in `source` are external tables. The data is stored in CSV files in the `musa509s23_team<N>_prepared_data` Cloud Storage bucket.
+The tables in `source` are external tables. The data is stored in JSON-L files in the `musa509s23_team<N>_prepared_data` Cloud Storage bucket.
 
 - `source.phl_opa_properties`
 - `source.phl_opa_assessments`
