@@ -55,17 +55,17 @@ The `musa509s23_team<N>_public` bucket contains files that are formatted to be u
 
 The tables in `source` are external tables. The data is stored in JSON-L files in the `musa509s23_team<N>_prepared_data` Cloud Storage bucket.
 
-- `source.phl_opa_properties`
-- `source.phl_opa_assessments`
-- `source.phl_pwd_parcels`
+- `source.opa_properties`
+- `source.opa_assessments`
+- `source.pwd_parcels`
 
 There's a correlated table in `core` for each table in `source`. Even though external tables are convenient for getting data into BigQuery, they're not the most efficient to query from. So, we copy the data into a table in `core` and query from there.
 
 In addition to the fields from the raw tables, each of the core tables will have a `property_id` field (derived from the OPA or BRT number) that can be used as the unique identifier for a property across the tables.
 
-- `core.phl_opa_properties`
-- `core.phl_opa_assessments`
-- `core.phl_pwd_parcels`
+- `core.opa_properties`
+- `core.opa_assessments`
+- `core.pwd_parcels`
 
 The `derived` schema contains all-new tables with data based on analyses and predictions. Below, each table is listed with the _minimal_ fields to include. The tables may have more fields than these (e.g., for `current_assessments` we may choose to store confidence interval data), but they will definitely have _at least_ the listed fields.
 
@@ -95,25 +95,25 @@ The `derived` schema contains all-new tables with data based on analyses and pre
 
 Each of these tasks download data from some source and store the data in `musa509s23_team<N>_raw_data`.
 
-- `extract-phl-opa-properties`
-- `extract-phl-opa-assessments`
-- `extract-phl-pwd-parcels`
+- `extract-opa-properties`
+- `extract-opa-assessments`
+- `extract-pwd-parcels`
 
 ### Preparing (i.e. little-t transforming)
 
 Each of these tasks read raw stored data from GCS and converts it into a clean CSV file in `musa509s23_team<N>_prepared_data`.
 
-- `prepare-phl-opa-properties`
-- `prepare-phl-opa-assessments`
-- `prepare-phl-pwd-parcels`
+- `prepare-opa-properties`
+- `prepare-opa-assessments`
+- `prepare-pwd-parcels`
 
 ### Loading
 
 Each of these creates (or replaces) an external table in the `source` dataset in BigQuery, and creates or replaces a copy of that data in the `core` dataset.
 
-- `load-phl-opa-properties`
-- `load-phl-opa-assessments`
-- `load-phl-pwd-parcels`
+- `load-opa-properties`
+- `load-opa-assessments`
+- `load-pwd-parcels`
 
 ### Generating assets
 
