@@ -80,6 +80,10 @@ The `derived` schema contains all-new tables with data based on analyses and pre
   - `upper_bound`
   - `property_count`
 
+- `derived.assessment_inputs`
+  - `property_id`
+  - Whatever other fields are needed to make predictions...
+
 - `derived.tax_year_assessments`
   - `tax_year`
   - `property_id`
@@ -119,3 +123,11 @@ Each of these creates (or replaces) an external table in the `source` dataset in
 
 - `generate-property-map-tiles`
 - `generate-assessment-chart-configs`
+
+## Cloud Run jobs
+
+To run the assessment prediction across all the properties, we use a Cloud Run job named `predict-current-assessments`. The script reads the `derived.assessment_inputs` table and writes the results to the `derived.current_assessments` table.
+
+## Workflows
+
+For extracting, loading, transforming, and predicting on data, there is a single workflow named `data-pipeline`. This workflow is triggered by a Cloud Scheduler job that runs once per week.
