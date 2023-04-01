@@ -131,3 +131,13 @@ To run the assessment prediction across all the properties, we use a Cloud Run j
 ## Workflows
 
 For extracting, loading, transforming, and predicting on data, there is a single workflow named `data-pipeline`. This workflow is triggered by a Cloud Scheduler job that runs once per week.
+
+## Service Accounts
+
+In each project, a service account named `data-pipeline-user` was created to provide necessary access to different GCP services. The following roles are assigned to the service account:
+
+- `Storage Object Admin`
+- `BigQuery Job User`
+- `Cloud Functions Invoker`
+- `Cloud Run Invoker`
+- `Workflows Invoker`
