@@ -98,8 +98,8 @@ The `derived` schema contains all-new tables with data based on analyses and pre
   - `property_id`
   - `address`
   - `geog`
-  - `current_assessed_value`
-  - `tax_year_assessed_value` (during the most recent tax year)
+  - `current_assessed_value` (as predicted by the model in the `derived.current_assessments` table)
+  - `tax_year_assessed_value` (during the most recent tax year in the `core.opa_assessments` table)
 
 - `derived.assessment_inputs` -- The inputs used to predict the current assessment value for each property.
 
