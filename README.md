@@ -12,6 +12,7 @@ Since bucket names must be globally unique, each name contains `team<N>` which s
 |-------------|-------------------------|
 | `musa509s23_team<N>_raw_data` | Raw data from the sources. |
 | `musa509s23_team<N>_prepared_data` | Data prepared for external tables in BigQuery. |
+| `musa509s23_team<N>_temp_data` | Temporary data used during processing. Files stored here will be deleted after a few days. |
 | `musa509s23_team<N>_public` | Files that are accessible to the public. These files are primarily inteded to be consumed by the assessment review and property information apps. |
 
 ### Raw Data
@@ -150,12 +151,14 @@ Each of these creates (or replaces) an external table in the `source` dataset in
 
 ### Generating assets
 
-- `generate-property-map-tiles`
+- `generate-property-map-tile-data`
 - `generate-assessment-chart-configs`
 
 ## Cloud Run jobs
 
 To run the assessment prediction across all the properties, we use a Cloud Run job named `predict-current-assessments`. The script reads the `derived.assessment_inputs` table and writes the results to the `derived.current_assessments` table.
+
+To create the vector tiles for the assessment review dashboard, we use a Cloud Run job named `generate-property-map-tiles`. The script downloads the `property_tile_info.geojson` file from the `musa509s23_team<N>_temp_data` bucket, generates vector tiles, and writes the results to the `musa509s23_team<N>_public/tiles` folder.
 
 ## Workflows
 
