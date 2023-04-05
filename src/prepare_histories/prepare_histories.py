@@ -14,7 +14,7 @@ def prepare_data(request):
     content = raw_blob.download_as_string()
     data = json.loads(content)
 
-    processed_blob = processed_bucket.blob('census_population_2020/data.csv')
+    processed_blob = processed_bucket.blob('assessment_histories/data.csv')
     outfile = io.StringIO()
     writer = csv.writer(outfile)
     writer.writerows(data)
