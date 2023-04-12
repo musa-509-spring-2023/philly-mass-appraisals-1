@@ -5,24 +5,35 @@ const map = new mapboxgl.Map({
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     style: 'mapbox://styles/mapbox/light-v9', // style URL
     center: [-75.116728, 39.993436], // starting position [lng, lat],
-    zoom: 11.2, // starting zoom
+    zoom: 13, // starting zoom
 });
 
 window.map = map;
 
-let mydata = {};
+map.on('load', () => {
+     map.addSource('tileSet', {
+         type: 'vector',
+         'tileSize': 512,
+         scheme: "xyz",
+         tiles: ['https://storage.googleapis.com/musa509s23_team01_public/tiles/properties/{z}/{x}/{y}.pbf']
+     });
+     map.addLayer({
+         'id': 'my-layer',
+         'type': 'fill',
+         'source': 'tileSet',
+         'source-layer': 'tileSet',
+         'paint': {
+             'fill-color': '#FF0000'
+         }
+     });
 
-// $.ajax({
-//     url: "https://phl.carto.com/api/v2/sql?filename=opa_properties_public&format=geojson&skipfields=cartodb_id&q=SELECT+*+FROM+opa_properties_public",
-//     type: "GET",
-//     dataType: "json",
-//     async: false,
-//     success: function(data) {
-//         mydata = data;
-//     },
-//     error: function (err) {
-//         console.log(err);
-//     },
-// });
-//
-// console.log(mydata)
+
+    // map.addLayer({
+    //     'id': 'my-layer',
+    //     'type': 'raster',
+    //     'source': 'vector',
+    //     'paint': {
+    //         'fill-color': 'red'
+    //     }
+    // });
+})
