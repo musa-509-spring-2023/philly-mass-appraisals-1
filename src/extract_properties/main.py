@@ -2,6 +2,8 @@ import json
 import requests
 from google.cloud import storage
 import functions_framework
+import dotenv
+dotenv.load_dotenv()
 
 @functions_framework.http
 def extract_data(request):
