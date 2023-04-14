@@ -18,12 +18,12 @@ def prepare_data(request):
     #outfile = io.StringIO()
     #writer = csv.writer(outfile) # convert to jsonl
     #writer.writerows(data)
-    with open('opa_properties.jsonl', 'w', encoding='utf-8') as f:
-        for feature in data['features']:
-            row = feature['properties']
-            row['geog'] = json.dumps(feature['geometry'])
-            f.write(json.dumps(row) + '\n')
-        processed_blob.upload_from_file(f)
+    rows = []
+    for feature in data['features']:
+        row = feature['properties']
+        row['geog'] = json.dumps(feature['geometry'])
+        rows.append(json.dumps(row))
+    processed_blob.upload_from_string('\n'.join(rows), content_type='application/jsonl')
 
     return 'OK'
 
