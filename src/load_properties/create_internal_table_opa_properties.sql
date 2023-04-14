@@ -1,4 +1,4 @@
-CREATE OR REPLACE core.opa_properties 
+CREATE OR REPLACE TABLE core.opa_properties
 AS (
     SELECT
         parcel_number AS property_id,
