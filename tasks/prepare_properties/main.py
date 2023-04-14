@@ -1,5 +1,3 @@
-import csv
-import io
 import json
 from google.cloud import storage
 import functions_framework
@@ -14,29 +12,13 @@ def prepare_data(request):
     content = raw_blob.download_as_string()
     data = json.loads(content)
 
-    processed_blob = processed_bucket.blob('opa_properties/data.jsonl')
-    #outfile = io.StringIO()
-    #writer = csv.writer(outfile) # convert to jsonl
-    #writer.writerows(data)
     rows = []
     for feature in data['features']:
         row = feature['properties']
         row['geog'] = json.dumps(feature['geometry'])
         rows.append(json.dumps(row))
+
+    processed_blob = processed_bucket.blob('opa_properties/data.jsonl')
     processed_blob.upload_from_string('\n'.join(rows), content_type='application/jsonl')
 
     return 'OK'
-
-####
-# import json
-
-# # Load the data from the GeoJSON file
-# with open('opa_properties_public.geojson', 'rU', encoding='utf-8', errors = 'ignore') as f:
-#     data = json.load(f)
-
-# # Write the data to a JSONL file
-# with open('opa_properties.jsonl', 'w', encoding='utf-8') as f:
-#     for feature in data['features']:
-#         row = feature['properties']
-#         row['geog'] = json.dumps(feature['geometry'])
-#         f.write(json.dumps(row) + '\n')
