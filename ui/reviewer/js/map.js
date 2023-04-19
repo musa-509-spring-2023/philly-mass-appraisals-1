@@ -26,18 +26,12 @@ map.on('load', () => {
          'paint': {
              // Use a match expression to create a property value-dependent style
              'fill-color': [
-                'match',
-                ['get', 'assessed_value'],
-                // Breakpoints and corresponding colors
-                0, '#ffeda0',
-                100000, '#feb24c',
-                200000, '#f03b20',
-                500000, '#bd0026',
-                1000000, '#800026',
-                // Default color if the value doesn't match any of the above breakpoints
-                '#000000'
-            ],
-            'fill-opacity': 0.8
+                'case',
+                ['all', ['>=', ['get', 'current_assessed_value'], 0], ['<=', ['get', 'current_assessed_value'], 100000]],
+                'red',
+                'blue',
+              ],
+            'fill-opacity': 0.8,
          }
      });
     })
