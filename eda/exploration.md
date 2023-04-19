@@ -37,7 +37,6 @@ Max market value: 276,892,000
 Mean: 450378.55
 Median: 229700.0
 
-
 ## Additional Feature Engineering
 
 ### Census Data
