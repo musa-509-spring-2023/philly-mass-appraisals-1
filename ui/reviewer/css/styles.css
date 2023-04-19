@@ -47,3 +47,17 @@ body {
   height: 50%;
   width: 100%;
 }
+
+.header{
+  font-size: large;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.plot{
+  font-size: large;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-left: 10px;
+  padding-top: 10px;
+}
