@@ -1,0 +1,63 @@
+html {
+  font-family: 'Reem Kufi', sans-serif;
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.left-container {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.right-container {
+  position: absolute;
+  left: 50%;
+  margin: 0;
+  padding: 0;
+  width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#map {
+  height: 100%;
+}
+
+.header {
+  position: relative;
+  height: 50%;
+  width: 100%;
+}
+
+.plot {
+  position: relative;
+  height: 50%;
+  width: 100%;
+}
+
+.header{
+  font-size: large;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.plot{
+  font-size: large;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-left: 10px;
+  padding-top: 10px;
+}

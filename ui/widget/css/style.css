@@ -1,0 +1,104 @@
+/* Global styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+h1, h2 {
+  margin: 1rem 0;
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Search styles */
+.search-container {
+  height: 50px;
+  display:flexbox;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.search-container input[type="text"] {
+  padding: 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  margin-right: 0.5rem;
+  width: 70%;
+  max-width: 20rem;
+  outline: none;
+  box-shadow: 0 0 0 2px #0077ff;
+}
+
+.search-container button[type="submit"] {
+  padding: 1rem 2rem;
+  border-radius: 0.25rem;
+  border: none;
+  background-color: #0077ff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.search-container button[type="submit"]:hover {
+  background-color: #005dff;
+}
+
+/* Chart styles */
+.chart-container {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+}
+
+.chart-container h2 {
+  margin-bottom: 1rem;
+}
+
+.canvas-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  outline: 2px solid #ccc;
+}
+
+.canvas-container canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 768px) {
+  .search-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-container input[type="text"], .search-container button[type="submit"] {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+    max-width: none;
+  }
+}
