@@ -9,49 +9,57 @@ from census import Census
 from us import states
 import os
 import seaborn as sns
+import functions_framework
 
 
 ## Load sklearn dependencies
-
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
-
 # Model selection
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
-
 # Pipelines
 from sklearn.pipeline import make_pipeline
-
 # Preprocessing
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
-
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
-
 from sklearn.neighbors import NearestNeighbors
 
+
+# Get the data from Google Cloud buckets
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/Users/ejs/philly-mass-appraisals-1/eda/keys/musa509s23-team1-philly-cama-b413417455db.json"
+
+# Set the environment variable with the path to your JSON key file
+# Define the bucket and file path
+bucket_name = "musa509s23_team01_raw_data"
+file_path = "phl_opa_properties/opa_properties.json"
+
+# Define the function to get the data from Google Cloud buckets
+def get_blob_string(bucket_name, source_blob_name):
+    """Reads a blob from the bucket as a string."""
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(source_blob_name)
+    return blob.download_as_text()
+# Read the data as a string
+data_string = get_blob_string(bucket_name, file_path)
+# Create a DataFrame from the string
+data_df = pd.read_json(StringIO(data_string))
+
+# Convert the GeoJSON file into dataframe
+import json
+# Load the GeoJSON data
+geojson_data = json.loads(data_string)
+features = geojson_data["features"]
+# Extract the properties of each feature and create a new list of dictionaries
+properties_list = [feature["properties"] for feature in features]
+# Create a DataFrame from the list of dictionaries
+opaRaw = pd.DataFrame(properties_list)
+opaFilt = opaRaw.loc[(opaRaw['assessment_date'] >= '2022-01-01') & (opaRaw['assessment_date'] <= '2023-04-01') & (opaRaw['zoning'].str.startswith('R'))]
 
 
 @functions_framework.http
 def model():
-
-    ### HB & SNOW
-    
-    #Pull in data from cloud storage & cut down to mannageable size
-    #Filter it for assessment date and zoning
-
-    #Pull data from OPA --> should be querying from BigQuery/Cloud Storage
-    carto_url = "https://phl.carto.com/api/v2/sql"
-
-    table_name = "opa_properties_public"
-
-    #filter for Zoned Residential
-    where = "assessment_date >= '2022-01-01' and assessment_date <= '2023-04-01'"
-    where = where + " and zoning LIKE 'R%'"
-
-    opaRaw = carto2gpd.get(carto_url, table_name, where=where)
-
-    ### DONE HB & SNOW
 
     #Get tracts/neighborhoods for geodata
     tracts = gpd.read_file('https://opendata.arcgis.com/datasets/8bc0786524a4486bb3cf0f9862ad0fbf_0.geojson')
@@ -59,7 +67,7 @@ def model():
 
     #Spatially join tracts, neighborhoods, and properties
 
-    opa1 = opaRaw.sjoin(tracts,how="left")
+    opa1 = opaFilt.sjoin(tracts,how="left")
     opa1 = opa1.drop(["index_right"], axis=1)
     opa1 = opa1.sjoin(neighborhoods, how="left")
 
@@ -185,9 +193,6 @@ def model():
     opa = opa.dropna()
 
     # Add in the lagged OPA and Census data to model
-
-    #Add in categorical
-
     num_cols = [
         "total_livable_area",
         "total_area",
@@ -227,9 +232,10 @@ def model():
         transformer, RandomForestRegressor(n_estimators=500, 
                                         random_state=42))
 
-
     # Fit the training set
     pipe.fit(train_set, y_train)
 
     # What's the test score?
     pipe.score(test_set, y_test)
+
+#Still more to do to actually make predictions...
