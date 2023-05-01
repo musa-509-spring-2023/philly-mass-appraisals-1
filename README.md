@@ -149,6 +149,13 @@ Each of these creates (or replaces) an external table in the `source` dataset in
 - `load-opa-assessments`
 - `load-pwd-parcels`
 
+### Transforming (big-T)
+
+Each of these tasks reads data from the `core` dataset, performs some analysis or aggregation, and writes the results to the `derived` dataset.
+
+- `transform-tax-year-assessment-bins`
+- `transform-current-assessment-bins`
+
 ### Generating assets
 
 - `generate-property-map-tile-data`
