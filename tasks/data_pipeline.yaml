@@ -1,20 +1,45 @@
 main:
     steps:
-    - extract_opa_properties:
-        call: http.post
-        args:
-            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/extract-properties
-            auth:
-                type: OIDC
-    - prepare_opa_properties:
-        call: http.post
-        args:
-            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/prepare-properties
-            auth:
-                type: OIDC
-    - load_opa_properties:
-        call: http.post
-        args:
-            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/load-properties
-            auth:
-                type: OIDC
+    - parallelStep:
+        parallel:
+            branches:
+            - properties:
+                steps:
+                - extract_opa_properties:
+                    call: http.post
+                    args:
+                        url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/extract-properties
+                        auth:
+                            type: OIDC
+                - prepare_opa_properties:
+                    call: http.post
+                    args:
+                        url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/prepare-properties
+                        auth:
+                            type: OIDC
+                - load_opa_properties:
+                    call: http.post
+                    args:
+                        url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/load-properties
+                        auth:
+                            type: OIDC
+            - accessments:
+                steps:
+                    - extract_opa_accessments:
+                        call: http.post
+                        args:
+                            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/extract-opa-assessments
+                            auth:
+                                type: OIDC
+                    - prepare_opa_accessments:
+                        call: http.post
+                        args:
+                            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/prepare-opa-assessments
+                            auth:
+                                type: OIDC
+                    - load_opa_accessments:
+                        call: http.post
+                        args:
+                            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/load-opa-assessments
+                            auth:
+                                type: OIDC
