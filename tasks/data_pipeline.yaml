@@ -28,18 +28,18 @@ main:
                     - extract_opa_accessments:
                         call: http.post
                         args:
-                            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/extract-properties
+                            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/extract-opa-assessments
                             auth:
                                 type: OIDC
                     - prepare_opa_accessments:
                         call: http.post
                         args:
-                            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/prepare-properties
+                            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/prepare-opa-assessments
                             auth:
                                 type: OIDC
                     - load_opa_accessments:
                         call: http.post
                         args:
-                            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/load-properties
+                            url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/load-opa-assessments
                             auth:
                                 type: OIDC
