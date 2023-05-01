@@ -43,3 +43,22 @@ main:
                             url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/load-opa-assessments
                             auth:
                                 type: OIDC
+    - transform:
+        parallel:
+            branches:
+            - current_assessments:
+                steps:
+                - train_model: {}
+                - transform_current_assessment_bins: {}
+            - tax_year_assessments:
+                steps:
+                - transform_tax_year_assessment_bins: {}
+    - generate_site_data:
+        parallel:
+            branches:
+            - chart_configs:
+                steps:
+                - generate_assessment_chart_configs: {}
+            - map_tiles:
+                steps:
+                - generate_property_map_tiles: {}
