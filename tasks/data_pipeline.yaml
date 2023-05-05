@@ -1,6 +1,6 @@
 main:
     steps:
-    - parallelStep:
+    - extract_and_load:
         parallel:
             branches:
             - properties:
@@ -23,23 +23,66 @@ main:
                         url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/load-properties
                         auth:
                             type: OIDC
-            - accessments:
+            - assessments:
                 steps:
-                    - extract_opa_accessments:
+                    - extract_opa_assessments:
                         call: http.post
                         args:
                             url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/extract-opa-assessments
                             auth:
                                 type: OIDC
-                    - prepare_opa_accessments:
+                    - prepare_opa_assessments:
                         call: http.post
                         args:
                             url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/prepare-opa-assessments
                             auth:
                                 type: OIDC
-                    - load_opa_accessments:
+                    - load_opa_assessments:
                         call: http.post
                         args:
                             url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/load-opa-assessments
                             auth:
                                 type: OIDC
+    - train_model: {}
+    - generate_site_data:
+        parallel:
+            branches:
+            - chart_configs:
+                steps:
+                - transform_current_assessment_bins:
+                    call: http.post
+                    args:
+                        url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/transform-current-assessment-bins
+                        auth:
+                            type: OIDC
+                - transform_tax_year_assessment_bins:
+                    call: http.post
+                    args:
+                        url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/transform-tax-year-assessment-bins
+                        auth:
+                            type: OIDC
+                - generate_assessment_chart_configs:
+                    call: http.post
+                    args:
+                        url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/generate-assessment-chart-configs
+                        auth:
+                            type: OIDC
+            - map_tiles:
+                steps:
+                - transform_property_tile_info:
+                    call: http.post
+                    args:
+                        url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/transform-property-tile-info
+                        auth:
+                            type: OIDC
+                - export_property_tile_info:
+                    call: http.post
+                    args:
+                        url: https://us-central1-musa509s23-team1-philly-cama.cloudfunctions.net/export-property-tile-info
+                        auth:
+                            type: OIDC
+                - generate_property_map_tiles:
+                    call: googleapis.run.v1.namespaces.jobs.run
+                    args:
+                        name: namespaces/musa509s23-team1-philly-cama/jobs/generate-property-map-tiles
+                        location: us-central1
